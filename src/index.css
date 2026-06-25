@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-beige: #f5f0e8;
+  --color-charcoal: #1a1a1a;
+  --color-gold: #c9a84c;
+  --color-gold-light: #d4bc6e;
+  --color-gold-dark: #a8893a;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-charcoal/10;
+  }
+
+  body {
+    @apply bg-beige text-charcoal font-sans antialiased;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
