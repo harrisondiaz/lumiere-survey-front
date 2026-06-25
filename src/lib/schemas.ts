@@ -52,11 +52,3 @@ export const frequencyOptions = [
   { value: "monthly", label: "Ocasionalmente" },
   { value: "rarely", label: "Casi nunca" },
 ];
-
-export const budgetOptions = [
-  { value: "under-25", label: "Menos de 25 €" },
-  { value: "25-50", label: "25 – 50 €" },
-  { value: "50-100", label: "50 – 100 €" },
-  { value: "100-200", label: "100 – 200 €" },
-  { value: "200+", label: "Más de 200 €" },
-];

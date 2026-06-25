@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { submitSurvey } from "@/lib/api";
+import { getBudgetOptions, getBudgetCurrencyHint } from "@/lib/budget";
 import {
   surveySchema,
   step1Fields,
@@ -34,7 +35,6 @@ import {
   countries,
   skincareOptions,
   frequencyOptions,
-  budgetOptions,
   type SurveyFormData,
 } from "@/lib/schemas";
 
@@ -113,6 +113,8 @@ export function SurveyPage() {
     control,
     handleSubmit,
     trigger,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<SurveyFormData>({
     resolver: zodResolver(surveySchema),
@@ -129,6 +131,9 @@ export function SurveyPage() {
   });
 
   const progress = (step / TOTAL_STEPS) * 100;
+  const selectedCountry = watch("country");
+  const budgetOptions = getBudgetOptions(selectedCountry);
+  const budgetHint = getBudgetCurrencyHint(selectedCountry);
 
   const goNext = async () => {
     const fields =
@@ -254,7 +259,10 @@ export function SurveyPage() {
                         <SelectField
                           label="País"
                           value={field.value}
-                          onChange={field.onChange}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            setValue("budgetRange", "");
+                          }}
                           options={countries}
                           error={errors.country?.message}
                           placeholder="Selecciona tu país"
@@ -300,14 +308,19 @@ export function SurveyPage() {
                       name="budgetRange"
                       control={control}
                       render={({ field }) => (
-                        <SelectField
-                          label="Presupuesto mensual en skincare"
-                          value={field.value}
-                          onChange={field.onChange}
-                          options={budgetOptions}
-                          error={errors.budgetRange?.message}
-                          placeholder="Selecciona un rango"
-                        />
+                        <div className="space-y-1">
+                          <SelectField
+                            label="Presupuesto mensual en skincare"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={budgetOptions}
+                            error={errors.budgetRange?.message}
+                            placeholder="Selecciona un rango"
+                          />
+                          {budgetHint && (
+                            <p className="text-xs text-charcoal/50">{budgetHint}</p>
+                          )}
+                        </div>
                       )}
                     />
                     </>
