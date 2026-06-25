@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { LumiereLogo } from "@/components/LumiereLogo";
+import { SubmitLoaderOverlay } from "@/components/SubmitLoaderOverlay";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -167,6 +168,7 @@ export function SurveyPage() {
 
   return (
     <div className="min-h-screen px-4 py-8 md:px-6">
+      <SubmitLoaderOverlay open={isSubmitting} />
       <div className="mx-auto max-w-xl">
         <div className="mb-8 flex items-center justify-center gap-3">
           <LumiereLogo size={36} />
@@ -372,11 +374,11 @@ export function SurveyPage() {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Enviando...
+                        Enviando…
                       </>
                     ) : (
                       "Enviar"
